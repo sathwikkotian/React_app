@@ -1,0 +1,30 @@
+name: Auto Commit and Push
+
+on:
+  schedule:
+    - cron: '30 13 * * *'  # Runs every day at 1:30 PM UTC (7:00 PM IST)
+
+  push:
+    branches:
+      - main  # Change this if your branch name is different
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "sathwikkotian"
+          git config --global user.email "sathwikkotiyan7@gmail.com"
+
+      - name: Add and Commit Changes
+        run: |
+          git add .
+          git commit -m "Daily progress update [$(date)]" || echo "No changes to commit"
+
+      - name: Push Changes
+        run: git push origin main
